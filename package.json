@@ -1,0 +1,15 @@
+{
+  "name": "PorPlanner_Automation_Challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:diegomera84/PorPlanner_Automation_Challenge.git",
+  "author": "Diego Mera <diego.mera84@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.28.1"
+  },
+  "scripts": {
+    "test:e2e": "yarn playwright test",
+    "purge": "rimraf *.tsbuildinfo node_modules"
+  }
+}
