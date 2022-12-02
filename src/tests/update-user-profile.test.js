@@ -17,10 +17,14 @@
  */
 
  const { test, 'test': { describe, beforeAll, afterAll }, expect } = require('@playwright/test');
+ const Home = require('../pages/home');
+ const Login = require('../pages/login');
+ const Profile = require('../pages/profile')
 
  const url = 'https://automation-wappi.vercel.app/login';
- const menuBar = 'a.nav-bar-link';
  const profileMenu = 3;
+ const user = 'DiegoMera';
+ const password = 'DiegoMera';
  const assertionStrings = [
     { 'locator': '#e-name', 'name': 'Nombre' },
     { 'locator': '#e-lastName', 'name': 'Apellido' },
@@ -30,19 +34,16 @@
  ];
 
  test('All the input fields in the profile page should be mandatory', async ({ page }) => {
+     const homePage = new Home(page);
+     const loginPage = new Login(page);
+     const profilePage = new Profile(page);
      await page.goto(url);
-     await page.locator('#username').fill('DiegoMera');
-     await page.locator('#password').fill('DiegoMera');
-     await page.locator('#button-login').click();
+     await loginPage.loginUser(user, password);
  
-     const menuOptions = await page.$$(menuBar);
-     await menuOptions[profileMenu].click();
+     await homePage.selectMenu(profileMenu);
  
-     await page.locator('#name').fill('');
-     await page.locator('#lastName').fill('');
-     await page.locator('#bornDate').fill('');
-     await page.locator('#country').selectOption('');
-     await page.locator('#save-profile').click();
+     await profilePage.clearAllFields();
+     await profilePage.saveProfile();
  
      for(let assertion = 0; assertion < 4; assertion+=1){
         const locator = await page.locator(assertionStrings[assertion].locator);
